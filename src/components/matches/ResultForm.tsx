@@ -402,7 +402,10 @@ export function ResultForm({
                       type="text"
                       value={entry.playerName}
                       onChange={(e) => updateGoalEntry(entry.id, { playerName: e.target.value })}
-                      onFocus={() => setSuggestionTarget({ id: entry.id, field: 'scorer' })}
+                      onFocus={() => {
+                        cancelSuggestionClose();
+                        setSuggestionTarget({ id: entry.id, field: 'scorer' });
+                      }}
                       onBlur={startSuggestionClose}
                       placeholder="Nombre del goleador"
                       className="w-full text-sm px-2 py-1.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500 placeholder-gray-400"
@@ -439,7 +442,10 @@ export function ResultForm({
                       type="text"
                       value={entry.assistName}
                       onChange={(e) => updateGoalEntry(entry.id, { assistName: e.target.value })}
-                      onFocus={() => setSuggestionTarget({ id: entry.id, field: 'assist' })}
+                      onFocus={() => {
+                        cancelSuggestionClose();
+                        setSuggestionTarget({ id: entry.id, field: 'assist' });
+                      }}
                       onBlur={startSuggestionClose}
                       placeholder="Asistencia (opcional)"
                       className="w-full text-sm px-2 py-1.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500 placeholder-gray-400"
