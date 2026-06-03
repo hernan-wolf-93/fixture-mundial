@@ -21,8 +21,8 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="fixed inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-lg shadow-xl max-w-lg w-full mx-4 p-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="relative bg-white rounded-lg shadow-xl max-w-lg w-full mx-4 flex flex-col max-h-[85vh]">
+        <div className="flex items-center justify-between p-6 pb-0 flex-shrink-0">
           <h2 className="text-lg font-semibold">{title}</h2>
           <button
             onClick={onClose}
@@ -31,7 +31,9 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             &times;
           </button>
         </div>
-        {children}
+        <div className="p-6 pt-4 overflow-y-auto">
+          {children}
+        </div>
       </div>
     </div>
   );

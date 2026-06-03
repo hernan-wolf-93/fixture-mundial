@@ -10,6 +10,7 @@ interface AppContextValue {
   dispatch: React.Dispatch<AppAction>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AppContext = createContext<AppContextValue | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {

@@ -1,10 +1,26 @@
+import type { Team, GroupLetter } from './team';
+import type { Match, MatchStage, MatchStatus, MatchResult, GoalEvent } from './match';
+import type { Standing, GroupStandings } from './standing';
+import type { BracketRound, BracketRoundName, BracketMatch } from './playoff';
+import type { ScorerEntry, AssisterEntry } from './stats';
+
 export type { Player } from './player';
-export type { GroupLetter } from './team';
-export type { Team } from './team';
-export type { MatchStage, MatchStatus, MatchResult, GoalEvent, Match } from './match';
-export type { Standing, GroupStandings } from './standing';
-export type { BracketRoundName, BracketMatch, BracketRound } from './playoff';
-export type { ScorerEntry, AssisterEntry } from './stats';
+export type {
+  GroupLetter,
+  Team,
+  MatchStage,
+  MatchStatus,
+  MatchResult,
+  GoalEvent,
+  Match,
+  Standing,
+  GroupStandings,
+  BracketRoundName,
+  BracketMatch,
+  BracketRound,
+  ScorerEntry,
+  AssisterEntry,
+};
 
 export interface AppState {
   teams: Team[];

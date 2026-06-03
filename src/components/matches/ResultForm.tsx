@@ -1,7 +1,8 @@
-import { useState, type FormEvent } from 'react';
-import type { Match, Team, MatchResult, GoalEvent } from '../../types';
+import { useState, useRef, type FormEvent } from 'react';
+import type { Match, Team, MatchResult, GoalEvent, Player } from '../../types';
 import { Modal } from '../ui/Modal';
 import { FlagIcon } from '../ui/FlagIcon';
+import squadsData from '../../data/squadsData.json';
 
 interface GoalFormEntry {
   id: number;
@@ -70,6 +71,29 @@ export function ResultForm({
   const [goalEntries, setGoalEntries] = useState<GoalFormEntry[]>(() => buildInitialGoals(match));
   const [errors, setErrors] = useState<FormErrors>({});
   const [confirmReset, setConfirmReset] = useState(false);
+  const [suggestionTarget, setSuggestionTarget] = useState<{ id: number; field: 'scorer' | 'assist' } | null>(null);
+  const suggestionTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  function getTeamSquad(teamId: string): Player[] {
+    return (squadsData as Record<string, Player[]>)[teamId] ?? [];
+  }
+
+  function getSuggestions(entryId: number, _field: 'scorer' | 'assist', query: string): Player[] {
+    const entry = goalEntries.find((g) => g.id === entryId);
+    if (!entry) return [];
+    const teamId = entry.isHome ? match.homeTeamId : match.awayTeamId;
+    const squad = getTeamSquad(teamId);
+    const lower = query.toLowerCase();
+    return squad.filter((p) => p.name.toLowerCase().includes(lower)).slice(0, 6);
+  }
+
+  function startSuggestionClose() {
+    suggestionTimer.current = setTimeout(() => setSuggestionTarget(null), 180);
+  }
+
+  function cancelSuggestionClose() {
+    if (suggestionTimer.current) clearTimeout(suggestionTimer.current);
+  }
 
   const hgNum = /^\d+$/.test(homeGoals.trim()) ? Number(homeGoals.trim()) : -1;
   const agNum = /^\d+$/.test(awayGoals.trim()) ? Number(awayGoals.trim()) : -1;
@@ -86,7 +110,7 @@ export function ResultForm({
         const newEntries: GoalFormEntry[] = [];
         for (let i = 0; i < addCount; i++) {
           const idx = prev.length + i;
-          const homeScored = goalEntries.filter((g) => g.isHome).length + newEntries.filter((g) => g.isHome).length;
+          const homeScored = prev.filter((g) => g.isHome).length + newEntries.filter((g) => g.isHome).length;
           newEntries.push({
             id: idx,
             isHome: homeScored < hTotal,
@@ -373,21 +397,79 @@ export function ResultForm({
                     </button>
                   </div>
 
-                  <input
-                    type="text"
-                    value={entry.playerName}
-                    onChange={(e) => updateGoalEntry(entry.id, { playerName: e.target.value })}
-                    placeholder="Nombre del goleador"
-                    className="flex-1 min-w-0 text-sm px-2 py-1.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500 placeholder-gray-400"
-                  />
+                  <div className="relative flex-1 min-w-0">
+                    <input
+                      type="text"
+                      value={entry.playerName}
+                      onChange={(e) => updateGoalEntry(entry.id, { playerName: e.target.value })}
+                      onFocus={() => setSuggestionTarget({ id: entry.id, field: 'scorer' })}
+                      onBlur={startSuggestionClose}
+                      placeholder="Nombre del goleador"
+                      className="w-full text-sm px-2 py-1.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500 placeholder-gray-400"
+                    />
+                    {suggestionTarget?.id === entry.id && suggestionTarget?.field === 'scorer' && entry.playerName && (
+                      <div
+                        className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                        onMouseDown={cancelSuggestionClose}
+                      >
+                        {getSuggestions(entry.id, 'scorer', entry.playerName).map((p) => (
+                          <button
+                            key={p.name}
+                            type="button"
+                            className="w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center gap-2 transition-colors"
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              updateGoalEntry(entry.id, { playerName: p.name });
+                              setSuggestionTarget(null);
+                            }}
+                          >
+                            <span className="text-xs text-gray-400 font-mono w-8 flex-shrink-0">#{p.jerseyNum}</span>
+                            <span className="truncate">{p.name}</span>
+                          </button>
+                        ))}
+                        {getSuggestions(entry.id, 'scorer', entry.playerName).length === 0 && (
+                          <div className="px-3 py-2 text-xs text-gray-400">Sin coincidencias</div>
+                        )}
+                      </div>
+                    )}
+                  </div>
 
-                  <input
-                    type="text"
-                    value={entry.assistName}
-                    onChange={(e) => updateGoalEntry(entry.id, { assistName: e.target.value })}
-                    placeholder="Asistencia (opcional)"
-                    className="w-36 text-sm px-2 py-1.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500 placeholder-gray-400 hidden sm:block"
-                  />
+                  <div className="relative w-36 flex-shrink-0 hidden sm:block">
+                    <input
+                      type="text"
+                      value={entry.assistName}
+                      onChange={(e) => updateGoalEntry(entry.id, { assistName: e.target.value })}
+                      onFocus={() => setSuggestionTarget({ id: entry.id, field: 'assist' })}
+                      onBlur={startSuggestionClose}
+                      placeholder="Asistencia (opcional)"
+                      className="w-full text-sm px-2 py-1.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500 placeholder-gray-400"
+                    />
+                    {suggestionTarget?.id === entry.id && suggestionTarget?.field === 'assist' && entry.assistName && (
+                      <div
+                        className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                        onMouseDown={cancelSuggestionClose}
+                      >
+                        {getSuggestions(entry.id, 'assist', entry.assistName).map((p) => (
+                          <button
+                            key={p.name}
+                            type="button"
+                            className="w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center gap-2 transition-colors"
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              updateGoalEntry(entry.id, { assistName: p.name });
+                              setSuggestionTarget(null);
+                            }}
+                          >
+                            <span className="text-xs text-gray-400 font-mono w-8 flex-shrink-0">#{p.jerseyNum}</span>
+                            <span className="truncate">{p.name}</span>
+                          </button>
+                        ))}
+                        {getSuggestions(entry.id, 'assist', entry.assistName).length === 0 && (
+                          <div className="px-3 py-2 text-xs text-gray-400">Sin coincidencias</div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

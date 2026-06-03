@@ -1,4 +1,4 @@
-import type { Match, MatchResult, GoalEvent, Player } from '../types';
+import type { Match, MatchResult, GoalEvent, Player, Team } from '../types';
 import { matches as allMatches } from '../data/matches';
 import { recalculateStandings } from '../logic/standings';
 import { buildPlayoffs } from '../logic/playoffs';
@@ -69,7 +69,7 @@ function generatePlayoffResult(): MatchResult {
     penalties.homeGoals = randomInt(3, 5);
     penalties.awayGoals = randomInt(3, 5);
   }
-  return { homeGoals: 0, awayGoals: 0, extraTime: true, penalties };
+  return { homeGoals, awayGoals, extraTime: true, penalties };
 }
 
 function generateGoals(
@@ -78,7 +78,7 @@ function generateGoals(
   awayTeamId: string,
 ): GoalEvent[] {
   const goals: GoalEvent[] = [];
-  let usedMinutes = new Set<number>();
+  const usedMinutes = new Set<number>();
 
   for (let i = 0; i < result.homeGoals; i++) {
     let minute: number;
@@ -152,7 +152,7 @@ export function generateSimulationResults(teams: { id: string }[]): SimulationRe
   ];
 
   for (const targetStage of playoffStageOrder) {
-    const standings = recalculateStandings(workingMatches, teams as any);
+    const standings = recalculateStandings(workingMatches, teams as Team[]);
     const { bracket, updatedMatches } = buildPlayoffs(standings, workingMatches);
 
     for (let i = 0; i < workingMatches.length; i++) {

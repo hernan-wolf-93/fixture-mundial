@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAppContext } from '../hooks/useAppContext';
 import { GroupSection } from '../components/groups/GroupSection';
 import { GroupTabs } from '../components/groups/GroupTabs';
+import type { GroupLetter } from '../types/team';
 
 const groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
@@ -26,7 +27,7 @@ export function GroupsPage() {
           <GroupSection
             key={letter}
             letter={letter}
-            standings={state.standings[letter]}
+            standings={state.standings[letter as GroupLetter]}
             teams={state.teams}
             matches={state.matches}
           />

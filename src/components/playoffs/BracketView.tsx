@@ -35,11 +35,11 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
   const mainRounds = rounds.filter((r) => r.name !== 'Third Place');
   const thirdPlaceRound = rounds.find((r) => r.name === 'Third Place');
 
-  function renderColumn(roundName: string, matches: BracketMatch[], isThirdPlace: boolean) {
+  function renderColumn(roundName: string, matches: BracketMatch[]) {
     const nodesCount = matches.length;
     return (
       <div key={roundName} className="flex flex-col px-2" style={{ width: COL_WIDTH, minHeight: bracketHeight }}>
-        <h3 className={`text-sm font-bold mb-3 text-center uppercase tracking-wide pt-2 ${isThirdPlace ? 'text-gray-500' : 'text-gray-700'}`}>
+        <h3 className="text-sm font-bold mb-3 text-center uppercase tracking-wide pt-2 text-gray-700">
           {roundNameLabels[roundName] ?? roundName}
         </h3>
         <div className={`flex flex-col flex-1 ${nodesCount > 1 ? 'justify-evenly' : 'justify-center'}`}>
@@ -72,16 +72,59 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
     );
   }
 
-  return (
-    <div className="overflow-x-auto pb-4">
-      <div className="flex items-stretch gap-0" style={{ minWidth: `${mainRounds.length * COL_WIDTH + 80}px` }}>
-        {mainRounds.map((round) =>
-          renderColumn(round.name, round.matches, false)
-        )}
-        {thirdPlaceRound && thirdPlaceRound.matches.length > 0 &&
-          renderColumn('Third Place', thirdPlaceRound.matches, true)
-        }
+  function renderThirdPlaceColumn(matches: BracketMatch[]) {
+    return (
+      <div className="flex flex-col px-2" style={{ width: COL_WIDTH }}>
+        <div className="flex flex-col justify-center">
+          {matches.map((bm) => {
+            const match = state.matches.find((m) => m.id === bm.matchId);
+            const homeTeam = bm.homeTeamId
+              ? state.teams.find((t) => t.id === bm.homeTeamId)
+              : undefined;
+            const awayTeam = bm.awayTeamId
+              ? state.teams.find((t) => t.id === bm.awayTeamId)
+              : undefined;
+            const isPlayed = match?.status === 'played';
+
+            return (
+              <div key={bm.id} className="ring-2 ring-amber-500 rounded-lg">
+                <BracketNode
+                  bracketMatch={bm}
+                  homeTeam={homeTeam}
+                  awayTeam={awayTeam}
+                  homeScore={match?.result?.homeGoals}
+                  awayScore={match?.result?.awayGoals}
+                  isPlayed={isPlayed}
+                  onClick={() => handleClick(bm)}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="overflow-x-auto pb-4">
+        <div className="flex items-stretch gap-0" style={{ minWidth: `${mainRounds.length * COL_WIDTH + 80}px` }}>
+          {mainRounds.map((round) =>
+            renderColumn(round.name, round.matches)
+          )}
+        </div>
+      </div>
+
+      {thirdPlaceRound && thirdPlaceRound.matches.length > 0 && (
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <h3 className="text-lg font-bold text-amber-700 mb-4 text-center">
+            🥉 Partido por el Tercer Puesto
+          </h3>
+          <div className="flex justify-center">
+            {renderThirdPlaceColumn(thirdPlaceRound.matches)}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
