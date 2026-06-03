@@ -56,16 +56,16 @@ export function TeamPage() {
         <p className="text-gray-500 text-center py-8">No hay información de plantel disponible</p>
       )}
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         {positionOrder.map((pos) => {
           const positionPlayers = players.filter((p) => p.position === pos);
           if (positionPlayers.length === 0) return null;
           return (
             <div key={pos}>
-              <h3 className="text-lg font-semibold text-gray-700 mb-3">
+              <h3 className="text-lg font-semibold text-gray-700 mb-4">
                 {positionLabels[pos]} ({positionPlayers.length})
               </h3>
-              <div className="space-y-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                 {positionPlayers.map((player) => (
                   <PlayerCard key={`${player.jerseyNum}-${player.name}`} player={player} flagCode={team.flag} />
                 ))}

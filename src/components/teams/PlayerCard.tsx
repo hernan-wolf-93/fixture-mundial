@@ -20,29 +20,26 @@ export function PlayerCard({ player, flagCode }: PlayerCardProps) {
   const showFallback = !player.picture || imgError;
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-3 flex items-center gap-3 hover:shadow-md transition-shadow">
-      <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 flex items-center justify-center">
+    <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 overflow-hidden flex flex-col">
+      <div className="aspect-[4/3] bg-gray-100 flex items-center justify-center p-4">
         {showFallback ? (
-          <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-full">
-            <FlagIcon countryCode={flagCode} size="sm" />
+          <div className="w-full h-full flex items-center justify-center bg-gray-100">
+            <FlagIcon countryCode={flagCode} size="lg" />
           </div>
         ) : (
           <img
             src={player.picture}
             alt={player.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
             onError={() => setImgError(true)}
           />
         )}
       </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-400 font-mono">#{player.jerseyNum}</span>
-          <span className="font-medium text-gray-900 text-sm truncate">{player.name}</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-gray-500 mt-0.5">
-          <span>{positionLabels[player.position]}</span>
-          <span>·</span>
+      <div className="p-3 flex flex-col items-center text-center gap-1">
+        <span className="text-lg font-bold text-gray-900 leading-none">#{player.jerseyNum}</span>
+        <span className="font-semibold text-gray-800 text-sm leading-tight">{player.name}</span>
+        <span className="text-xs text-gray-500">{positionLabels[player.position]}</span>
+        <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">
           <span>{player.age} años</span>
           <span>·</span>
           <span>{player.height} cm</span>
