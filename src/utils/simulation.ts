@@ -1,9 +1,10 @@
-import type { Match, MatchResult, GoalEvent } from '../types';
+import type { Match, MatchResult, GoalEvent, Player } from '../types';
 import { matches as allMatches } from '../data/matches';
 import { recalculateStandings } from '../logic/standings';
 import { buildPlayoffs } from '../logic/playoffs';
+import squadsData from '../data/squadsData.json';
 
-const PLAYER_NAMES = [
+const FALLBACK_NAMES = [
   'L. Messi', 'C. Ronaldo', 'K. Mbappé', 'Neymar', 'M. Salah',
   'R. Lewandowski', 'K. De Bruyne', 'V. van Dijk', 'S. Mané', 'H. Kane',
   'E. Haaland', 'L. Suárez', 'S. Agüero', 'A. Griezmann', 'P. Pogba',
@@ -13,12 +14,40 @@ const PLAYER_NAMES = [
   'A. Davies', 'J. Bellingham', 'Pedri', 'Gavi', 'V. Osimhen',
 ];
 
+const POSITION_WEIGHTS: { position: Player['position']; weight: number }[] = [
+  { position: 'Forward', weight: 50 },
+  { position: 'Midfielder', weight: 30 },
+  { position: 'Defender', weight: 15 },
+  { position: 'Goalkeeper', weight: 5 },
+];
+
 function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getSquadPlayer(teamId: string, excludeName?: string): string {
+  const squad = (squadsData as Record<string, Player[]>)[teamId];
+  if (!squad || squad.length === 0) return pickRandom(FALLBACK_NAMES);
+
+  const roll = Math.random() * 100;
+  let cumulative = 0;
+  let position: Player['position'] = 'Forward';
+  for (const { position: pos, weight } of POSITION_WEIGHTS) {
+    cumulative += weight;
+    if (roll <= cumulative) { position = pos; break; }
+  }
+
+  const candidates = squad.filter((p) => p.position === position && p.name !== excludeName);
+  if (candidates.length > 0) return pickRandom(candidates).name;
+
+  const anyCandidates = squad.filter((p) => p.name !== excludeName);
+  if (anyCandidates.length > 0) return pickRandom(anyCandidates).name;
+
+  return pickRandom(FALLBACK_NAMES);
 }
 
 function generateGroupResult(): MatchResult {
@@ -47,21 +76,21 @@ function generateGoals(
   result: MatchResult,
   homeTeamId: string,
   awayTeamId: string,
-  playerPool: string[]
 ): GoalEvent[] {
   const goals: GoalEvent[] = [];
-  const totalGoals = result.homeGoals + result.awayGoals;
   let usedMinutes = new Set<number>();
 
   for (let i = 0; i < result.homeGoals; i++) {
     let minute: number;
     do { minute = randomInt(1, 90 + (result.extraTime ? 30 : 0)); } while (usedMinutes.has(minute));
     usedMinutes.add(minute);
+    const scorer = getSquadPlayer(homeTeamId);
+    const assist = Math.random() < 0.5 ? getSquadPlayer(homeTeamId, scorer) : undefined;
     goals.push({
-      playerName: pickRandom(playerPool),
+      playerName: scorer,
       teamId: homeTeamId,
       minute,
-      ...(Math.random() < 0.5 ? { assistPlayerName: pickRandom(playerPool) } : {}),
+      ...(assist ? { assistPlayerName: assist } : {}),
     });
   }
 
@@ -69,11 +98,13 @@ function generateGoals(
     let minute: number;
     do { minute = randomInt(1, 90 + (result.extraTime ? 30 : 0)); } while (usedMinutes.has(minute));
     usedMinutes.add(minute);
+    const scorer = getSquadPlayer(awayTeamId);
+    const assist = Math.random() < 0.5 ? getSquadPlayer(awayTeamId, scorer) : undefined;
     goals.push({
-      playerName: pickRandom(playerPool),
+      playerName: scorer,
       teamId: awayTeamId,
       minute,
-      ...(Math.random() < 0.5 ? { assistPlayerName: pickRandom(playerPool) } : {}),
+      ...(assist ? { assistPlayerName: assist } : {}),
     });
   }
 
@@ -96,7 +127,7 @@ export function generateSimulationResults(teams: { id: string }[]): SimulationRe
   const groupMatches = workingMatches.filter((m) => m.stage === 'group');
   for (const match of groupMatches) {
     const result = generateGroupResult();
-    const goals = generateGoals(result, match.homeTeamId, match.awayTeamId, PLAYER_NAMES);
+    const goals = generateGoals(result, match.homeTeamId, match.awayTeamId);
     const idx = workingMatches.indexOf(match);
     workingMatches[idx] = { ...match, result, goals, status: 'played' };
     results.push({
@@ -138,7 +169,7 @@ export function generateSimulationResults(teams: { id: string }[]): SimulationRe
         if (!match.homeTeamId || !match.awayTeamId) continue;
 
         const result = generatePlayoffResult();
-        const goals = generateGoals(result, match.homeTeamId, match.awayTeamId, PLAYER_NAMES);
+        const goals = generateGoals(result, match.homeTeamId, match.awayTeamId);
         const idx = workingMatches.findIndex((m) => m.id === match.id);
         workingMatches[idx] = { ...match, result, goals, status: 'played' };
         results.push({
