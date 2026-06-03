@@ -3,6 +3,7 @@ import { AppProvider } from './state/AppContext';
 import { Layout } from './components/layout/Layout';
 import { HomePage } from './pages/HomePage';
 import { GroupsPage } from './pages/GroupsPage';
+import { TeamPage } from './pages/TeamPage';
 import { FixturePage } from './pages/FixturePage';
 import { PlayoffsPage } from './pages/PlayoffsPage';
 import { StatsPage } from './pages/StatsPage';
@@ -18,6 +19,7 @@ function App() {
             <Route path="/fixture" element={<FixturePage />} />
             <Route path="/playoffs" element={<PlayoffsPage />} />
             <Route path="/stats" element={<StatsPage />} />
+            <Route path="/teams/:teamId" element={<TeamPage />} />
           </Route>
         </Routes>
       </AppProvider>

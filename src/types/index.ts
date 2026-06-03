@@ -1,3 +1,4 @@
+export type { Player } from './player';
 export type { GroupLetter } from './team';
 export type { Team } from './team';
 export type { MatchStage, MatchStatus, MatchResult, GoalEvent, Match } from './match';
