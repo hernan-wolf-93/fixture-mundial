@@ -4,12 +4,24 @@ import { Navbar } from './Navbar';
 
 export function Layout() {
   return (
-    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
-      <Header />
-      <Navbar />
-      <main className="max-w-7xl mx-auto px-2 sm:px-4 py-6">
-        <Outlet />
-      </main>
+    <div className="relative min-h-screen overflow-x-hidden">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover"
+      >
+        <source src="/videos/background.mp4" type="video/mp4" />
+      </video>
+      <div className="fixed inset-0 bg-black/60" />
+      <div className="relative z-10 flex flex-col min-h-screen">
+        <Header />
+        <Navbar />
+        <main className="max-w-7xl mx-auto px-2 sm:px-4 py-6 flex-1">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }

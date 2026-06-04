@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppProvider } from './state/AppContext';
 import { Layout } from './components/layout/Layout';
+import { LandingPage } from './pages/LandingPage';
 import { HomePage } from './pages/HomePage';
 import { GroupsPage } from './pages/GroupsPage';
 import { TeamPage } from './pages/TeamPage';
@@ -13,8 +14,9 @@ function App() {
     <BrowserRouter>
       <AppProvider>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="/groups" element={<GroupsPage />} />
             <Route path="/fixture" element={<FixturePage />} />
             <Route path="/playoffs" element={<PlayoffsPage />} />

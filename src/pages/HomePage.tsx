@@ -5,7 +5,7 @@ export function HomePage() {
   return (
     <div>
       <DevTools />
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Equipos</h2>
+      <h2 className="text-2xl font-bold text-white mb-6">Equipos</h2>
       <TeamList />
     </div>
   );

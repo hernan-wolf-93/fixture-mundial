@@ -29,30 +29,30 @@ export function BracketNode({
     <button
       type="button"
       onClick={onClick}
-      className={`w-full text-left bg-white rounded-lg border-2 p-2.5 transition-all cursor-pointer
-        ${isPlayed ? 'border-green-400 hover:border-green-600' : 'border-gray-200 hover:border-blue-400'}
+      className={`w-full text-left bg-white/10 backdrop-blur-sm rounded-lg border-2 p-2.5 transition-all cursor-pointer
+        ${isPlayed ? 'border-green-400/60 hover:border-green-400' : 'border-white/20 hover:border-blue-400'}
         ${hasWinner ? 'shadow-sm' : ''}
         hover:shadow-md active:scale-[0.99]`}
     >
       <div className="flex items-center gap-1.5">
-        <div className={`flex items-center gap-1.5 flex-1 min-w-0 py-0.5 px-1 rounded ${isHomeWinner ? 'bg-green-100 font-semibold' : ''}`}>
+        <div className={`flex items-center gap-1.5 flex-1 min-w-0 py-0.5 px-1 rounded ${isHomeWinner ? 'bg-green-900/40 font-semibold' : ''}`}>
           {homeTeam && <FlagIcon countryCode={homeTeam.flag} size="sm" />}
-          <span className={`text-xs truncate ${isHomeWinner ? 'text-green-900' : 'text-gray-700'}`}>
+          <span className={`text-xs truncate ${isHomeWinner ? 'text-green-300' : 'text-gray-300'}`}>
             {homeTeam?.name ?? '—'}
           </span>
-          <span className={`ml-auto text-sm font-bold tabular-nums ${isHomeWinner ? 'text-green-800' : 'text-gray-500'}`}>
+          <span className={`ml-auto text-sm font-bold tabular-nums ${isHomeWinner ? 'text-green-300' : 'text-gray-400'}`}>
             {isPlayed ? (homeScore ?? '') : ''}
           </span>
         </div>
       </div>
 
       <div className="flex items-center gap-1.5 mt-0.5">
-        <div className={`flex items-center gap-1.5 flex-1 min-w-0 py-0.5 px-1 rounded ${isAwayWinner ? 'bg-green-100 font-semibold' : ''}`}>
+        <div className={`flex items-center gap-1.5 flex-1 min-w-0 py-0.5 px-1 rounded ${isAwayWinner ? 'bg-green-900/40 font-semibold' : ''}`}>
           {awayTeam && <FlagIcon countryCode={awayTeam.flag} size="sm" />}
-          <span className={`text-xs truncate ${isAwayWinner ? 'text-green-900' : 'text-gray-700'}`}>
+          <span className={`text-xs truncate ${isAwayWinner ? 'text-green-300' : 'text-gray-300'}`}>
             {awayTeam?.name ?? '—'}
           </span>
-          <span className={`ml-auto text-sm font-bold tabular-nums ${isAwayWinner ? 'text-green-800' : 'text-gray-500'}`}>
+          <span className={`ml-auto text-sm font-bold tabular-nums ${isAwayWinner ? 'text-green-300' : 'text-gray-400'}`}>
             {isPlayed ? (awayScore ?? '') : ''}
           </span>
         </div>

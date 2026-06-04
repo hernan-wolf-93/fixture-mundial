@@ -13,7 +13,7 @@ export function GroupStandingsTable({ standings, teams, groupComplete }: GroupSt
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-gray-50 text-gray-600 uppercase text-xs">
+          <tr className="bg-white/5 text-gray-300 uppercase text-xs">
             <th className="px-3 py-2 text-left">#</th>
             <th className="px-3 py-2 text-left">Equipo</th>
             <th className="px-3 py-2 text-center">PJ</th>
@@ -33,14 +33,14 @@ export function GroupStandingsTable({ standings, teams, groupComplete }: GroupSt
             return (
               <tr
                 key={s.teamId}
-                className={`border-t border-gray-100 ${
-                  isQualifying ? 'bg-green-50/50' : ''
-                } hover:bg-gray-50 transition-colors`}
+                className={`border-t border-white/10 ${
+                  isQualifying ? 'bg-green-900/20' : ''
+                } hover:bg-white/5 transition-colors`}
               >
-                <td className="px-3 py-2.5 text-gray-500 font-mono">{idx + 1}</td>
+                <td className="px-3 py-2.5 text-gray-400 font-mono">{idx + 1}</td>
                 <td className="px-3 py-2.5 flex items-center gap-2">
                   {team && <FlagIcon countryCode={team.flag} size="sm" />}
-                  <span className="font-medium text-gray-900">{team?.name ?? s.teamId}</span>
+                  <span className="font-medium text-white">{team?.name ?? s.teamId}</span>
                   {isQualifying && <Badge variant="success">C</Badge>}
                 </td>
                 <td className="px-3 py-2.5 text-center font-mono">{s.played}</td>
@@ -50,11 +50,11 @@ export function GroupStandingsTable({ standings, teams, groupComplete }: GroupSt
                 <td className="px-3 py-2.5 text-center font-mono">{s.goalsFor}</td>
                 <td className="px-3 py-2.5 text-center font-mono">{s.goalsAgainst}</td>
                 <td className={`px-3 py-2.5 text-center font-mono ${
-                  s.goalDifference > 0 ? 'text-green-600' : s.goalDifference < 0 ? 'text-red-600' : ''
+                  s.goalDifference > 0 ? 'text-green-400' : s.goalDifference < 0 ? 'text-red-400' : ''
                 }`}>
                   {s.goalDifference > 0 ? '+' : ''}{s.goalDifference}
                 </td>
-                <td className="px-3 py-2.5 text-center font-bold font-mono text-gray-900">{s.points}</td>
+                <td className="px-3 py-2.5 text-center font-bold font-mono text-white">{s.points}</td>
               </tr>
             );
           })}

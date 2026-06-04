@@ -39,7 +39,7 @@ export function TeamPage() {
     <div>
       <button
         onClick={() => navigate(-1)}
-        className="text-sm text-gray-500 hover:text-gray-700 mb-4 flex items-center gap-1"
+        className="text-sm text-gray-400 hover:text-white mb-4 flex items-center gap-1"
       >
         ← Volver
       </button>
@@ -47,7 +47,7 @@ export function TeamPage() {
       <div className="flex items-center gap-4 mb-8">
         <FlagIcon countryCode={team.flag} size="lg" />
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">{team.name}</h2>
+          <h2 className="text-2xl font-bold text-white">{team.name}</h2>
           <p className="text-sm text-gray-500">Grupo {team.group}</p>
         </div>
       </div>
@@ -62,7 +62,7 @@ export function TeamPage() {
           if (positionPlayers.length === 0) return null;
           return (
             <div key={pos}>
-              <h3 className="text-lg font-semibold text-gray-700 mb-4">
+              <h3 className="text-lg font-semibold text-gray-200 mb-4">
                 {positionLabels[pos]} ({positionPlayers.length})
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">

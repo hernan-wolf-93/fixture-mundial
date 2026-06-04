@@ -248,9 +248,9 @@ export function ResultForm({
         <div className="flex items-center justify-center gap-4 py-4">
           <div className="flex flex-col items-center gap-2 flex-1">
             {homeTeam && <FlagIcon countryCode={homeTeam.flag} size="lg" />}
-            <span className="text-sm font-medium text-gray-900 text-center">
-              {homeTeam?.name ?? 'Local'}
-            </span>
+              <span className="text-sm font-medium text-white text-center">
+                {homeTeam?.name ?? 'Local'}
+              </span>
             <input
               type="text"
               inputMode="numeric"
@@ -275,9 +275,9 @@ export function ResultForm({
 
           <div className="flex flex-col items-center gap-2 flex-1">
             {awayTeam && <FlagIcon countryCode={awayTeam.flag} size="lg" />}
-            <span className="text-sm font-medium text-gray-900 text-center">
-              {awayTeam?.name ?? 'Visitante'}
-            </span>
+              <span className="text-sm font-medium text-white text-center">
+                {awayTeam?.name ?? 'Visitante'}
+              </span>
             <input
               type="text"
               inputMode="numeric"
@@ -358,28 +358,28 @@ export function ResultForm({
         )}
 
         {totalGoals > 0 && (
-          <div className="border-t border-gray-200 pt-3">
-            <h4 className="text-sm font-semibold text-gray-700 mb-3">
+          <div className="border-t border-white/20 pt-3">
+            <h4 className="text-sm font-semibold text-gray-200 mb-3">
               Goles del partido ({totalGoals})
             </h4>
             <div className="space-y-2">
               {goalEntries.map((entry, idx) => (
                 <div
                   key={entry.id}
-                  className="flex items-center gap-2 bg-gray-50 rounded-lg p-2.5"
+                  className="flex items-center gap-2 bg-white/5 rounded-lg p-2.5"
                 >
                   <span className="text-xs text-gray-400 font-mono w-5 flex-shrink-0">
                     {idx + 1}
                   </span>
 
-                  <div className="flex items-center gap-1 bg-white rounded border border-gray-200 p-0.5 flex-shrink-0">
+                  <div className="flex items-center gap-1 bg-white/10 rounded border border-white/20 p-0.5 flex-shrink-0">
                     <button
                       type="button"
                       onClick={() => updateGoalEntry(entry.id, { isHome: true })}
                       className={`text-[11px] px-2 py-0.5 rounded font-medium transition-colors ${
                         entry.isHome
                           ? 'bg-blue-600 text-white'
-                          : 'text-gray-500 hover:text-gray-700'
+                          : 'text-gray-400 hover:text-white'
                       }`}
                     >
                       Local
@@ -390,7 +390,7 @@ export function ResultForm({
                       className={`text-[11px] px-2 py-0.5 rounded font-medium transition-colors ${
                         !entry.isHome
                           ? 'bg-blue-600 text-white'
-                          : 'text-gray-500 hover:text-gray-700'
+                          : 'text-gray-400 hover:text-white'
                       }`}
                     >
                       Visita
@@ -500,7 +500,7 @@ export function ResultForm({
                   <button
                     type="button"
                     onClick={() => setConfirmReset(false)}
-                    className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+                    className="flex-1 px-4 py-2 bg-white/10 text-gray-300 rounded-lg text-sm font-medium hover:bg-white/20 transition-colors"
                   >
                     Cancelar
                   </button>
@@ -516,7 +516,7 @@ export function ResultForm({
                   <button
                     type="button"
                     onClick={() => setConfirmReset(true)}
-                    className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-red-100 hover:text-red-600 transition-colors"
+                    className="px-4 py-2 bg-white/10 text-gray-400 rounded-lg text-sm font-medium hover:bg-red-900/40 hover:text-red-300 transition-colors"
                   >
                     Eliminar
                   </button>

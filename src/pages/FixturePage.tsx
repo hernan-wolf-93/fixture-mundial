@@ -39,8 +39,8 @@ export function FixturePage() {
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Fixture de Partidos</h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <h2 className="text-2xl font-bold text-white">Fixture de Partidos</h2>
+          <p className="text-sm text-gray-400 mt-1">
             Fase de grupos &middot; {playedCount} de {totalCount} jugados
           </p>
         </div>
@@ -62,7 +62,7 @@ export function FixturePage() {
                 className={`relative px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
                   selectedGroup === g
                     ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
                 }`}
               >
                 Grupo {g}
@@ -76,14 +76,14 @@ export function FixturePage() {
       </div>
 
       {rounds.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
+        <div className="text-center py-16 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
           <p className="text-gray-500">No se encontraron partidos para este grupo.</p>
         </div>
       ) : (
         rounds.map((round) => (
           <div key={round} className="mb-8">
             <div className="flex items-center gap-2 mb-3">
-              <h3 className="text-lg font-semibold text-gray-700">
+              <h3 className="text-lg font-semibold text-gray-200">
                 Jornada {round}
               </h3>
               <Badge>

@@ -20,10 +20,10 @@ export function PlayerCard({ player, flagCode }: PlayerCardProps) {
   const showFallback = !player.picture || imgError;
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 overflow-hidden flex flex-col">
-      <div className="aspect-[4/3] bg-gray-100 flex items-center justify-center p-4">
+    <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 overflow-hidden flex flex-col">
+      <div className="aspect-[4/3] bg-white/5 flex items-center justify-center p-4">
         {showFallback ? (
-          <div className="w-full h-full flex items-center justify-center bg-gray-100">
+          <div className="w-full h-full flex items-center justify-center bg-white/5">
             <FlagIcon countryCode={flagCode} size="lg" />
           </div>
         ) : (
@@ -36,9 +36,9 @@ export function PlayerCard({ player, flagCode }: PlayerCardProps) {
         )}
       </div>
       <div className="p-3 flex flex-col items-center text-center gap-1">
-        <span className="text-lg font-bold text-gray-900 leading-none">#{player.jerseyNum}</span>
-        <span className="font-semibold text-gray-800 text-sm leading-tight">{player.name}</span>
-        <span className="text-xs text-gray-500">{positionLabels[player.position]}</span>
+        <span className="text-lg font-bold text-white leading-none">#{player.jerseyNum}</span>
+        <span className="font-semibold text-gray-100 text-sm leading-tight">{player.name}</span>
+        <span className="text-xs text-gray-400">{positionLabels[player.position]}</span>
         <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">
           <span>{player.age} años</span>
           <span>·</span>

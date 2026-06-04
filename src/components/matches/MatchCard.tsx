@@ -16,8 +16,8 @@ export function MatchCard({ match, homeTeam, awayTeam, onSelect }: MatchCardProp
     <button
       type="button"
       onClick={() => onSelect(match)}
-      className={`w-full text-left bg-white rounded-lg border p-4 transition-all cursor-pointer
-        ${isPlayed ? 'border-green-300 hover:border-green-500' : 'border-gray-200 hover:border-blue-400'}
+      className={`w-full text-left bg-white/10 backdrop-blur-sm rounded-lg border p-4 transition-all cursor-pointer
+        ${isPlayed ? 'border-green-400/60 hover:border-green-400' : 'border-white/20 hover:border-blue-400'}
         hover:shadow-md active:scale-[0.99]`}
     >
       <div className="text-xs text-gray-400 mb-2 flex items-center gap-2">
@@ -30,14 +30,14 @@ export function MatchCard({ match, homeTeam, awayTeam, onSelect }: MatchCardProp
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-1 min-w-0">
           {homeTeam && <FlagIcon countryCode={homeTeam.flag} size="sm" />}
-          <span className="font-medium text-gray-900 text-sm truncate">
+          <span className="font-medium text-white text-sm truncate">
             {homeTeam?.name ?? '—'}
           </span>
         </div>
 
         <div className="flex-shrink-0 w-16 text-center">
           {isPlayed && match.result ? (
-            <span className="text-lg font-bold text-gray-900 tabular-nums">
+            <span className="text-lg font-bold text-white tabular-nums">
               {match.result.homeGoals} &ndash; {match.result.awayGoals}
             </span>
           ) : (
@@ -46,7 +46,7 @@ export function MatchCard({ match, homeTeam, awayTeam, onSelect }: MatchCardProp
         </div>
 
         <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
-          <span className="font-medium text-gray-900 text-sm truncate">
+          <span className="font-medium text-white text-sm truncate">
             {awayTeam?.name ?? '—'}
           </span>
           {awayTeam && <FlagIcon countryCode={awayTeam.flag} size="sm" />}
@@ -54,12 +54,12 @@ export function MatchCard({ match, homeTeam, awayTeam, onSelect }: MatchCardProp
       </div>
 
       {isPlayed && match.result?.extraTime && (
-        <div className="mt-2 text-xs text-center text-amber-600 font-medium">
+        <div className="mt-2 text-xs text-center text-amber-400 font-medium">
           Definido en tiempo extra
         </div>
       )}
       {isPlayed && match.result?.penalties && (
-        <div className="mt-1 text-xs text-center text-amber-600 font-medium">
+        <div className="mt-1 text-xs text-center text-amber-400 font-medium">
           Penales: {match.result.penalties.homeGoals} &ndash; {match.result.penalties.awayGoals}
         </div>
       )}

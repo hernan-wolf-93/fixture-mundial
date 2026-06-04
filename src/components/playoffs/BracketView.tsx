@@ -39,7 +39,7 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
     const nodesCount = matches.length;
     return (
       <div key={roundName} className="flex flex-col px-2" style={{ width: COL_WIDTH, minHeight: bracketHeight }}>
-        <h3 className="text-sm font-bold mb-3 text-center uppercase tracking-wide pt-2 text-gray-700">
+        <h3 className="text-sm font-bold mb-3 text-center uppercase tracking-wide pt-2 text-gray-300">
           {roundNameLabels[roundName] ?? roundName}
         </h3>
         <div className={`flex flex-col flex-1 ${nodesCount > 1 ? 'justify-evenly' : 'justify-center'}`}>
@@ -116,8 +116,8 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
       </div>
 
       {thirdPlaceRound && thirdPlaceRound.matches.length > 0 && (
-        <div className="mt-8 pt-6 border-t border-gray-200">
-          <h3 className="text-lg font-bold text-amber-700 mb-4 text-center">
+        <div className="mt-8 pt-6 border-t border-white/20">
+          <h3 className="text-lg font-bold text-amber-400 mb-4 text-center">
             🥉 Partido por el Tercer Puesto
           </h3>
           <div className="flex justify-center">

@@ -26,9 +26,9 @@ export function PlayoffsPage() {
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Playoffs</h2>
+          <h2 className="text-2xl font-bold text-white">Playoffs</h2>
           {state.playoffs.length > 0 && (
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-400 mt-1">
               {state.tournamentStage === 'finished'
                 ? 'Torneo finalizado'
                 : 'Fase eliminatoria — hacé clic en cada cruce para cargar el resultado'}
@@ -38,9 +38,9 @@ export function PlayoffsPage() {
       </div>
 
       {state.playoffs.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
+        <div className="text-center py-16 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
           <span className="text-5xl block mb-4">🏆</span>
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-300 text-lg">
             Los cruces de playoffs aparecerán una vez que la fase de grupos esté completa.
           </p>
           <p className="text-gray-400 text-sm mt-2">
@@ -48,7 +48,7 @@ export function PlayoffsPage() {
           </p>
         </div>
       ) : (
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-4">
           <BracketView onSelectMatch={handleSelectMatch} />
         </div>
       )}

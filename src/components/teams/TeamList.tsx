@@ -13,7 +13,7 @@ export function TeamList() {
         const groupTeams = state.teams.filter((t) => t.group === letter);
         return (
           <div key={letter}>
-            <h3 className="text-lg font-semibold text-gray-700 mb-3 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-200 mb-3 flex items-center gap-2">
               Grupo {letter}
               <Badge>{groupTeams.length} equipos</Badge>
             </h3>

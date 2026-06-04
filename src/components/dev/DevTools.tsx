@@ -22,12 +22,12 @@ export function DevTools() {
   if (!import.meta.env.DEV) return null;
 
   return (
-    <div className="border-2 border-dashed border-yellow-400 bg-yellow-50 rounded-lg p-4 mb-6">
+    <div className="border-2 border-dashed border-yellow-400/60 bg-yellow-500/10 rounded-lg p-4 mb-6">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-yellow-800 uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-yellow-300 uppercase tracking-wide">
           Herramientas de Desarrollo
         </h3>
-        <span className="text-xs font-mono bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded">
+        <span className="text-xs font-mono bg-yellow-500/20 text-yellow-300 px-2 py-0.5 rounded">
           Solo Desarrollo
         </span>
       </div>
@@ -40,7 +40,7 @@ export function DevTools() {
         </button>
         <button
           onClick={handleResetAll}
-          className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition text-sm font-medium"
+          className="px-4 py-2 bg-white/10 text-gray-300 rounded hover:bg-white/20 transition text-sm font-medium"
         >
           Resetear todo
         </button>
