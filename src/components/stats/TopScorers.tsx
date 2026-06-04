@@ -39,11 +39,13 @@ export function TopScorers({ scorers, teams }: TopScorersProps) {
                 <td className="px-1 sm:px-3 py-2 sm:py-2.5">
                   <div className="flex items-center gap-1 sm:gap-2">
                     {team && <FlagIcon countryCode={team.flag} size="sm" />}
-                    <span className="text-gray-600 truncate max-w-[70px] sm:max-w-none">{team?.name ?? entry.teamId}</span>
+                    <span className="text-white truncate max-w-[70px] sm:max-w-none">{team?.name ?? entry.teamId}</span>
                   </div>
                 </td>
-                <td className="px-1 sm:px-3 py-2 sm:py-2.5 text-center font-bold font-mono text-base sm:text-lg text-blue-700">
-                  {entry.goals}
+                <td className="px-1 sm:px-3 py-2 sm:py-2.5 text-center">
+                  <span className="bg-white/20 rounded px-2 py-0.5 text-white font-bold font-mono text-base sm:text-lg">
+                    {entry.goals}
+                  </span>
                 </td>
               </tr>
             );

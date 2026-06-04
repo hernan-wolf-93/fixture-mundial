@@ -7,7 +7,6 @@ export function Layout() {
     <div className="relative min-h-screen overflow-x-hidden">
       <video
         autoPlay
-        loop
         muted
         playsInline
         className="fixed inset-0 w-full h-full object-cover"

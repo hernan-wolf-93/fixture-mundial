@@ -412,26 +412,26 @@ export function ResultForm({
                     />
                     {suggestionTarget?.id === entry.id && suggestionTarget?.field === 'scorer' && entry.playerName && (
                       <div
-                        className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                        className="absolute z-50 top-full left-0 right-0 mt-1 bg-white text-gray-900 border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
                         onMouseDown={cancelSuggestionClose}
                       >
                         {getSuggestions(entry.id, 'scorer', entry.playerName).map((p) => (
                           <button
                             key={p.name}
                             type="button"
-                            className="w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center gap-2 transition-colors"
+                            className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 text-gray-900 flex items-center gap-2 transition-colors"
                             onMouseDown={(e) => {
                               e.preventDefault();
                               updateGoalEntry(entry.id, { playerName: p.name });
                               setSuggestionTarget(null);
                             }}
                           >
-                            <span className="text-xs text-gray-400 font-mono w-8 flex-shrink-0">#{p.jerseyNum}</span>
+                            <span className="text-xs text-gray-500 font-mono w-8 flex-shrink-0">#{p.jerseyNum}</span>
                             <span className="truncate">{p.name}</span>
                           </button>
                         ))}
                         {getSuggestions(entry.id, 'scorer', entry.playerName).length === 0 && (
-                          <div className="px-3 py-2 text-xs text-gray-400">Sin coincidencias</div>
+                          <div className="px-3 py-2 text-xs text-gray-500">Sin coincidencias</div>
                         )}
                       </div>
                     )}
@@ -452,26 +452,26 @@ export function ResultForm({
                     />
                     {suggestionTarget?.id === entry.id && suggestionTarget?.field === 'assist' && entry.assistName && (
                       <div
-                        className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                        className="absolute z-50 top-full left-0 right-0 mt-1 bg-white text-gray-900 border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
                         onMouseDown={cancelSuggestionClose}
                       >
                         {getSuggestions(entry.id, 'assist', entry.assistName).map((p) => (
                           <button
                             key={p.name}
                             type="button"
-                            className="w-full text-left px-3 py-2 text-sm hover:bg-blue-50 flex items-center gap-2 transition-colors"
+                            className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 text-gray-900 flex items-center gap-2 transition-colors"
                             onMouseDown={(e) => {
                               e.preventDefault();
                               updateGoalEntry(entry.id, { assistName: p.name });
                               setSuggestionTarget(null);
                             }}
                           >
-                            <span className="text-xs text-gray-400 font-mono w-8 flex-shrink-0">#{p.jerseyNum}</span>
+                            <span className="text-xs text-gray-500 font-mono w-8 flex-shrink-0">#{p.jerseyNum}</span>
                             <span className="truncate">{p.name}</span>
                           </button>
                         ))}
                         {getSuggestions(entry.id, 'assist', entry.assistName).length === 0 && (
-                          <div className="px-3 py-2 text-xs text-gray-400">Sin coincidencias</div>
+                          <div className="px-3 py-2 text-xs text-gray-500">Sin coincidencias</div>
                         )}
                       </div>
                     )}
