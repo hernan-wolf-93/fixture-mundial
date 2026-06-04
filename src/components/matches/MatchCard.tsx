@@ -16,7 +16,7 @@ export function MatchCard({ match, homeTeam, awayTeam, onSelect }: MatchCardProp
     <button
       type="button"
       onClick={() => onSelect(match)}
-      className={`w-full text-left bg-white/10 backdrop-blur-sm rounded-lg border p-4 transition-all cursor-pointer
+      className={`w-full text-left bg-black/50 backdrop-blur-sm rounded-lg border p-4 transition-all cursor-pointer
         ${isPlayed ? 'border-green-400/60 hover:border-green-400' : 'border-white/20 hover:border-blue-400'}
         hover:shadow-md active:scale-[0.99]`}
     >

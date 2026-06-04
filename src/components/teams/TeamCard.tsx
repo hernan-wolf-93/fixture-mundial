@@ -10,7 +10,7 @@ export function TeamCard({ team }: TeamCardProps) {
   return (
     <Link
       to={`/teams/${team.id}`}
-      className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-3 flex items-center gap-3 hover:bg-white/20 transition-all"
+      className="bg-black/50 backdrop-blur-sm rounded-lg border border-white/20 p-3 flex items-center gap-3 hover:bg-white/20 transition-all"
     >
       <FlagIcon countryCode={team.flag} size="md" alt={team.name} />
       <span className="font-medium text-white text-sm">{team.name}</span>

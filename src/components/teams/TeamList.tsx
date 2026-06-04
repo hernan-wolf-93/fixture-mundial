@@ -8,7 +8,7 @@ export function TeamList() {
   const { state } = useAppContext();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 bg-white/15 rounded sm:grid-cols-2 lg:grid-cols-4 gap-10 p-6">
       {groups.map((letter) => {
         const groupTeams = state.teams.filter((t) => t.group === letter);
         return (

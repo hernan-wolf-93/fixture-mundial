@@ -17,7 +17,7 @@ export function GroupSection({ letter, standings, teams, matches }: GroupSection
   );
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 overflow-hidden">
+    <div className="bg-black/50 backdrop-blur-sm rounded-lg border border-white/20 overflow-hidden">
       <div className="bg-blue-900/30 px-4 py-3 border-b border-white/10">
         <h3 className="font-semibold text-white">Grupo {letter}</h3>
       </div>

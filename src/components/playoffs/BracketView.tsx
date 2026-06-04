@@ -106,9 +106,9 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
   }
 
   return (
-    <div>
-      <div className="overflow-x-auto pb-4">
-        <div className="flex items-stretch gap-0" style={{ minWidth: `${mainRounds.length * COL_WIDTH + 80}px` }}>
+    <div className="overflow-x-auto w-full max-w-full">
+      <div className="pb-4" style={{ minWidth: `${mainRounds.length * COL_WIDTH + 80}px` }}>
+        <div className="flex items-stretch gap-0">
           {mainRounds.map((round) =>
             renderColumn(round.name, round.matches)
           )}

@@ -20,7 +20,7 @@ export function PlayerCard({ player, flagCode }: PlayerCardProps) {
   const showFallback = !player.picture || imgError;
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 overflow-hidden flex flex-col">
+    <div className="bg-black/50 backdrop-blur-sm rounded-xl border border-white/20 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 overflow-hidden flex flex-col">
       <div className="aspect-[4/3] bg-white/5 flex items-center justify-center p-4">
         {showFallback ? (
           <div className="w-full h-full flex items-center justify-center bg-white/5">

@@ -5,9 +5,19 @@ export function LandingPage() {
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0f172a] overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_50%_50%,#fff_0%,transparent_70%)]" />
+      <div className="absolute inset-0 opacity-20">
+        <div
+          className="absolute left-0 top-0 h-full w-1/2 bg-cover bg-center"
+          style={{ backgroundImage: "url('/imagenes/inicio.jpg')" }}
+        />
 
-      <div className="animate-fade-in flex flex-col items-center px-6 text-center">
+        <div
+          className="absolute right-0 top-0 h-full w-1/2 bg-cover bg-center"
+          style={{ backgroundImage: "url('/imagenes/inicio.jpg')" }}
+        />
+      </div>
+
+      <div className="animate-fade-in flex flex-col items-center px-6 text-center -mt-30">
         <img
           src="/imagenes/trofeo.png"
           alt="Copa Mundial Qatar 2022"

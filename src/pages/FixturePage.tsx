@@ -62,7 +62,7 @@ export function FixturePage() {
                 className={`relative px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
                   selectedGroup === g
                     ? 'bg-blue-600 text-white'
-                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                    : 'bg-black/50 text-gray-300 hover:bg-white/20'
                 }`}
               >
                 Grupo {g}
@@ -76,7 +76,7 @@ export function FixturePage() {
       </div>
 
       {rounds.length === 0 ? (
-        <div className="text-center py-16 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
+        <div className="text-center py-16 bg-black/50 backdrop-blur-sm rounded-lg border border-white/20">
           <p className="text-gray-500">No se encontraron partidos para este grupo.</p>
         </div>
       ) : (

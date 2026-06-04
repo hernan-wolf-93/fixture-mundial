@@ -4,7 +4,7 @@ import { Navbar } from './Navbar';
 
 export function Layout() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
+    <div className="relative min-h-screen">
       <video
         autoPlay
         muted
@@ -17,7 +17,7 @@ export function Layout() {
       <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
         <Navbar />
-        <main className="max-w-7xl mx-auto px-2 sm:px-4 py-6 flex-1">
+        <main className="max-w-7xl mx-auto px-2 sm:px-4 py-6 flex-1 min-w-0">
           <Outlet />
         </main>
       </div>

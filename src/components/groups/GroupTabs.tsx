@@ -24,7 +24,7 @@ export function GroupTabs({ groups, selectedGroup, onSelect }: GroupTabsProps) {
           className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
             selectedGroup === g
               ? 'bg-blue-600 text-white'
-            : 'bg-white/10 text-gray-300 hover:bg-white/20'
+            : 'bg-black/50 text-gray-300 hover:bg-white/20'
           }`}
         >
           Grupo {g}

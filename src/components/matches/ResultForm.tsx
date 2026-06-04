@@ -372,7 +372,7 @@ export function ResultForm({
                     {idx + 1}
                   </span>
 
-                  <div className="flex items-center gap-1 bg-white/10 rounded border border-white/20 p-0.5 flex-shrink-0">
+                  <div className="flex items-center gap-1 bg-black/50 rounded border border-white/20 p-0.5 flex-shrink-0">
                     <button
                       type="button"
                       onClick={() => updateGoalEntry(entry.id, { isHome: true })}
@@ -500,7 +500,7 @@ export function ResultForm({
                   <button
                     type="button"
                     onClick={() => setConfirmReset(false)}
-                    className="flex-1 px-4 py-2 bg-white/10 text-gray-300 rounded-lg text-sm font-medium hover:bg-white/20 transition-colors"
+                    className="flex-1 px-4 py-2 bg-black/50 text-gray-300 rounded-lg text-sm font-medium hover:bg-white/20 transition-colors"
                   >
                     Cancelar
                   </button>
@@ -516,7 +516,7 @@ export function ResultForm({
                   <button
                     type="button"
                     onClick={() => setConfirmReset(true)}
-                    className="px-4 py-2 bg-white/10 text-gray-400 rounded-lg text-sm font-medium hover:bg-red-900/40 hover:text-red-300 transition-colors"
+                    className="px-4 py-2 bg-black/50 text-gray-400 rounded-lg text-sm font-medium hover:bg-red-900/40 hover:text-red-300 transition-colors"
                   >
                     Eliminar
                   </button>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import type { Team } from '../../types';
 import { FlagIcon } from '../ui/FlagIcon';
 
@@ -47,7 +48,7 @@ export function ChampionCelebrationModal({ championTeam, onViewStats, onClose }:
 
   const fireworks = useMemo(() => buildFireworks(), []);
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/80 backdrop-blur-md">
       {/* Fireworks layer */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -132,6 +133,7 @@ export function ChampionCelebrationModal({ championTeam, onViewStats, onClose }:
         .animate-bounce-in { animation: bounce-in 0.8s ease-out both; }
         .animate-fade-in-up { animation: fade-in-up 0.8s ease-out both; }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 }

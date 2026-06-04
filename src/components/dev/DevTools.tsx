@@ -38,7 +38,7 @@ export function DevTools() {
         </button>
         <button
           onClick={handleResetAll}
-          className="px-4 py-2 bg-white/10 text-gray-300 rounded hover:bg-white/20 transition text-sm font-medium"
+          className="px-4 py-2 bg-black/50 text-gray-300 rounded hover:bg-white/20 transition text-sm font-medium"
         >
           Resetear todo
         </button>

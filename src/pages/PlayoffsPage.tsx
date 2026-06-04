@@ -77,7 +77,7 @@ export function PlayoffsPage() {
       </div>
 
       {state.playoffs.length === 0 ? (
-        <div className="text-center py-16 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
+        <div className="text-center py-16 bg-black/50 backdrop-blur-sm rounded-lg border border-white/20">
           <span className="text-5xl block mb-4">🏆</span>
           <p className="text-gray-300 text-lg">
             Los cruces de playoffs aparecerán una vez que la fase de grupos esté completa.
@@ -87,7 +87,7 @@ export function PlayoffsPage() {
           </p>
         </div>
       ) : (
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-4">
+        <div className="bg-black/50 backdrop-blur-sm rounded-lg border border-white/20 p-4 min-w-0">
           <BracketView onSelectMatch={handleSelectMatch} />
         </div>
       )}
