@@ -83,7 +83,7 @@ export function ChampionCelebrationModal({ championTeam, onViewStats, onClose }:
           <img
             src="/imagenes/trofeo.png"
             alt="Copa Mundial"
-            className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 object-contain animate-bounce-in"
+            className="w-25 h-24 md:w-60 md:h-60 mx-auto mb-4 object-contain animate-bounce-in"
           />
         </div>
 

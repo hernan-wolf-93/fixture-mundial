@@ -38,7 +38,7 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
   function renderColumn(roundName: string, matches: BracketMatch[]) {
     const nodesCount = matches.length;
     return (
-      <div key={roundName} className="flex flex-col px-2 flex-shrink-0" style={{ width: COL_WIDTH, minHeight: bracketHeight }}>
+      <div key={roundName} className="flex flex-col px-2 shrink-0" style={{ width: COL_WIDTH, minHeight: bracketHeight }}>
         <h3 className="text-sm font-bold mb-3 text-center uppercase tracking-wide pt-2 text-gray-300">
           {roundNameLabels[roundName] ?? roundName}
         </h3>
@@ -74,7 +74,7 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
 
   function renderThirdPlaceColumn(matches: BracketMatch[]) {
     return (
-      <div className="flex flex-col px-2 flex-shrink-0" style={{ width: COL_WIDTH }}>
+      <div className="flex flex-col px-2 shrink-0" style={{ width: COL_WIDTH }}>
         <div className="flex flex-col justify-center">
           {matches.map((bm) => {
             const match = state.matches.find((m) => m.id === bm.matchId);
@@ -108,7 +108,7 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
   return (
     <div className="w-full" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
       <div className="pb-4">
-        <div className="flex items-stretch gap-0 w-max">
+        <div className="flex items-stretch gap-0 w-max mx-auto">
           {mainRounds.map((round) =>
             renderColumn(round.name, round.matches)
           )}
