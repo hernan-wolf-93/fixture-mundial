@@ -35,7 +35,7 @@ export function MatchCard({ match, homeTeam, awayTeam, onSelect }: MatchCardProp
           </span>
         </div>
 
-        <div className="flex-shrink-0 w-16 text-center">
+        <div className="shrink-0 w-16 text-center">
           {isPlayed && match.result ? (
             <span className="text-lg font-bold text-white tabular-nums">
               {match.result.homeGoals} &ndash; {match.result.awayGoals}

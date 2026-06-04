@@ -368,11 +368,11 @@ export function ResultForm({
                   key={entry.id}
                   className="flex items-center gap-2 bg-white/5 rounded-lg p-2.5"
                 >
-                  <span className="text-xs text-gray-400 font-mono w-5 flex-shrink-0">
+                  <span className="text-xs text-gray-400 font-mono w-5 shrink-0">
                     {idx + 1}
                   </span>
 
-                  <div className="flex items-center gap-1 bg-black/50 rounded border border-white/20 p-0.5 flex-shrink-0">
+                  <div className="flex items-center gap-1 bg-black/50 rounded border border-white/20 p-0.5 shrink-0">
                     <button
                       type="button"
                       onClick={() => updateGoalEntry(entry.id, { isHome: true })}
@@ -426,7 +426,7 @@ export function ResultForm({
                               setSuggestionTarget(null);
                             }}
                           >
-                            <span className="text-xs text-gray-500 font-mono w-8 flex-shrink-0">#{p.jerseyNum}</span>
+                            <span className="text-xs text-gray-500 font-mono w-8 shrink-0">#{p.jerseyNum}</span>
                             <span className="truncate">{p.name}</span>
                           </button>
                         ))}
@@ -437,7 +437,7 @@ export function ResultForm({
                     )}
                   </div>
 
-                  <div className="relative w-36 flex-shrink-0 hidden sm:block">
+                  <div className="relative w-36 shrink-0 hidden sm:block">
                     <input
                       type="text"
                       value={entry.assistName}
@@ -466,7 +466,7 @@ export function ResultForm({
                               setSuggestionTarget(null);
                             }}
                           >
-                            <span className="text-xs text-gray-500 font-mono w-8 flex-shrink-0">#{p.jerseyNum}</span>
+                            <span className="text-xs text-gray-500 font-mono w-8 shrink-0">#{p.jerseyNum}</span>
                             <span className="truncate">{p.name}</span>
                           </button>
                         ))}

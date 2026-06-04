@@ -35,11 +35,11 @@ export function TopScorers({ scorers, teams }: TopScorersProps) {
                 className="border-t border-white/10 hover:bg-white/5 transition-colors"
               >
                 <td className="px-1 sm:px-3 py-2 sm:py-2.5 text-gray-500 font-mono">{idx + 1}</td>
-                <td className="px-1 sm:px-3 py-2 sm:py-2.5 font-medium text-white truncate max-w-[100px] sm:max-w-none">{entry.playerName}</td>
+                <td className="px-1 sm:px-3 py-2 sm:py-2.5 font-medium text-white truncate max-w-25 sm:max-w-none">{entry.playerName}</td>
                 <td className="px-1 sm:px-3 py-2 sm:py-2.5">
                   <div className="flex items-center gap-1 sm:gap-2">
                     {team && <FlagIcon countryCode={team.flag} size="sm" />}
-                    <span className="text-white truncate max-w-[70px] sm:max-w-none">{team?.name ?? entry.teamId}</span>
+                    <span className="text-white truncate max-w-17.5 sm:max-w-none">{team?.name ?? entry.teamId}</span>
                   </div>
                 </td>
                 <td className="px-1 sm:px-3 py-2 sm:py-2.5 text-center">

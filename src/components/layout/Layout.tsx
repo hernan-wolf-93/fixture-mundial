@@ -17,7 +17,7 @@ export function Layout() {
       <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
         <Navbar />
-        <main className="max-w-7xl mx-auto px-2 sm:px-4 py-6 flex-1 min-w-0">
+        <main className="w-full mx-auto px-2 sm:px-4 py-6 flex-1" style={{ maxWidth: '80rem' }}>
           <Outlet />
         </main>
       </div>

@@ -87,7 +87,7 @@ export function PlayoffsPage() {
           </p>
         </div>
       ) : (
-        <div className="bg-black/50 backdrop-blur-sm rounded-lg border border-white/20 p-4 min-w-0">
+        <div className="bg-black/50 backdrop-blur-sm rounded-lg border border-white/20 p-4">
           <BracketView onSelectMatch={handleSelectMatch} />
         </div>
       )}
