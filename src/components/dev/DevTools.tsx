@@ -19,8 +19,6 @@ export function DevTools() {
     }
   }, [dispatch]);
 
-  if (!import.meta.env.DEV) return null;
-
   return (
     <div className="border-2 border-dashed border-yellow-400/60 bg-yellow-500/10 rounded-lg p-4 mb-6">
       <div className="flex items-center justify-between mb-3">
@@ -28,7 +26,7 @@ export function DevTools() {
           Herramientas de Desarrollo
         </h3>
         <span className="text-xs font-mono bg-yellow-500/20 text-yellow-300 px-2 py-0.5 rounded">
-          Solo Desarrollo
+          Herramientas de Demo
         </span>
       </div>
       <div className="flex gap-3">

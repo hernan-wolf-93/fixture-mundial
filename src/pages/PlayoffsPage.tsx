@@ -1,15 +1,54 @@
 import { useState } from 'react';
 import { useAppContext } from '../hooks/useAppContext';
-import type { Match, MatchResult, GoalEvent } from '../types';
+import type { Match, MatchResult, GoalEvent, Team } from '../types';
 import { BracketView } from '../components/playoffs/BracketView';
 import { ResultForm } from '../components/matches/ResultForm';
+import { ChampionCelebrationModal } from '../components/playoffs/ChampionCelebrationModal';
+
+function getChampion(match: Match, teams: Team[]): Team | undefined {
+  if (!match.result) return undefined;
+  const { homeGoals, awayGoals, penalties } = match.result;
+  const homeTeam = teams.find((t) => t.id === match.homeTeamId);
+  const awayTeam = teams.find((t) => t.id === match.awayTeamId);
+  if (!homeTeam || !awayTeam) return undefined;
+  if (homeGoals > awayGoals) return homeTeam;
+  if (awayGoals > homeGoals) return awayTeam;
+  if (penalties) {
+    return penalties.homeGoals > penalties.awayGoals ? homeTeam : awayTeam;
+  }
+  return undefined;
+}
 
 export function PlayoffsPage() {
   const { state, dispatch } = useAppContext();
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
+  const [celebrationMatch, setCelebrationMatch] = useState<Match | null>(null);
+  const [championTeam, setChampionTeam] = useState<Team | null>(null);
 
   function handleSelectMatch(match: Match) {
+    const isFinal = match.stage === 'final';
+    const hasResult = match.status === 'played' && match.result;
+
+    if (isFinal && hasResult) {
+      const champ = getChampion(match, state.teams);
+      if (champ) {
+        setChampionTeam(champ);
+        setCelebrationMatch(match);
+        return;
+      }
+    }
     setSelectedMatch(match);
+  }
+
+  function handleCelebrationViewStats() {
+    setSelectedMatch(celebrationMatch);
+    setCelebrationMatch(null);
+    setChampionTeam(null);
+  }
+
+  function handleCelebrationClose() {
+    setCelebrationMatch(null);
+    setChampionTeam(null);
   }
 
   function handleSubmitResult(matchId: string, result: MatchResult, goals: GoalEvent[]) {
@@ -51,6 +90,14 @@ export function PlayoffsPage() {
         <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-4">
           <BracketView onSelectMatch={handleSelectMatch} />
         </div>
+      )}
+
+      {celebrationMatch && championTeam && (
+        <ChampionCelebrationModal
+          championTeam={championTeam}
+          onViewStats={handleCelebrationViewStats}
+          onClose={handleCelebrationClose}
+        />
       )}
 
       {selectedMatch && (

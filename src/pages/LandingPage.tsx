@@ -28,7 +28,7 @@ export function LandingPage() {
           </p>
           <button
             onClick={() => navigate('/home')}
-            className="px-10 py-3.5 bg-gradient-to-r from-yellow-500 to-amber-600 text-white font-semibold rounded-full text-base shadow-lg shadow-yellow-500/30 hover:shadow-yellow-500/50 hover:scale-105 transition-all duration-300 active:scale-95"
+            className="px-10 py-3.5 bg-linear-to-r from-yellow-500 to-amber-600 text-white font-semibold rounded-full text-base shadow-lg shadow-yellow-500/30 hover:shadow-yellow-500/50 hover:scale-105 transition-all duration-300 active:scale-95"
           >
             Ingresar al torneo
           </button>
