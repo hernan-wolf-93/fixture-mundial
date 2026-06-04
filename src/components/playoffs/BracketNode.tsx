@@ -9,6 +9,7 @@ interface BracketNodeProps {
   homeScore?: number;
   awayScore?: number;
   isPlayed: boolean;
+  isFinal?: boolean;
   onClick: () => void;
 }
 
@@ -19,6 +20,7 @@ export function BracketNode({
   homeScore,
   awayScore,
   isPlayed,
+  isFinal,
   onClick,
 }: BracketNodeProps) {
   const hasWinner = !!bracketMatch.winnerId;
@@ -32,6 +34,7 @@ export function BracketNode({
       className={`w-full text-left bg-black/50 backdrop-blur-sm rounded-lg border-2 p-2.5 transition-all cursor-pointer
         ${isPlayed ? 'border-green-400/60 hover:border-green-400' : 'border-white/20 hover:border-blue-400'}
         ${hasWinner ? 'shadow-sm' : ''}
+        ${isFinal ? 'ring-2 ring-red-600 shadow-lg shadow-yellow-500/30' : ''}
         hover:shadow-md active:scale-[0.99]`}
     >
       <div className="flex items-center gap-1.5">

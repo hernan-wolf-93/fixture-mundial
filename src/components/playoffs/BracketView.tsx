@@ -62,6 +62,7 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
                   homeScore={match?.result?.homeGoals}
                   awayScore={match?.result?.awayGoals}
                   isPlayed={isPlayed}
+                  isFinal={roundName === 'Final'}
                   onClick={() => handleClick(bm)}
                 />
               </div>
