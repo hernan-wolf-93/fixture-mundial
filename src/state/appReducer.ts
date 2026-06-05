@@ -94,9 +94,6 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case 'RESET_ALL':
       return { ...initialAppState };
 
-    case 'SET_TOURNAMENT_STAGE':
-      return { ...state, tournamentStage: action.payload };
-
     default:
       return state;
   }

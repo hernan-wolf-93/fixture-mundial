@@ -22,10 +22,3 @@ export function loadState(): AppState | null {
   }
 }
 
-export function clearState(): void {
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-  } catch {
-    console.warn('Failed to clear state from localStorage');
-  }
-}

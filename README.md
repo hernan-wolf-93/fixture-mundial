@@ -62,4 +62,4 @@ npm run preview
 
 ## Integrantes
 
-- **Nombre:** [TU NOMBRE] — **Legajo:** [TU LEGAJO]
+- **Nombre:** Lobo Hector Hernan — **Legajo:** 63883

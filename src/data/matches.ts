@@ -90,15 +90,3 @@ export const matches: Match[] = allMatches.map((m, i) => ({
   ...m,
   id: `match-${String(i + 1).padStart(3, '0')}`,
 }));
-
-export const getTeamsByGroup = (group: string) =>
-  teams.filter((t) => t.group === group);
-
-export const getTeamById = (id: string) =>
-  teams.find((t) => t.id === id);
-
-export const getMatchesByStage = (stage: string) =>
-  matches.filter((m) => m.stage === stage);
-
-export const getMatchesByGroup = (group: string) =>
-  matches.filter((m) => m.group === group);
