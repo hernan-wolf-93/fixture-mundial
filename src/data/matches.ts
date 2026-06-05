@@ -1,5 +1,4 @@
 import type { Match } from '../types';
-import { teams } from './teams';
 
 const groupMatches: Omit<Match, 'id'>[] = [
   // Group A

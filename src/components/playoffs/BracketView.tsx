@@ -107,9 +107,9 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
   }
 
   return (
-    <div className="w-full" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+    <div className="w-full" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', textAlign: 'center' }}>
       <div className="pb-4">
-        <div className="flex items-stretch gap-0 w-max mx-auto">
+        <div className="inline-flex items-stretch gap-0">
           {mainRounds.map((round) =>
             renderColumn(round.name, round.matches)
           )}

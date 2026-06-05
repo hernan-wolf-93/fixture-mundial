@@ -327,7 +327,7 @@ export function ResultForm({
                   inputMode="numeric"
                   value={homePenalties}
                   onChange={(e) => setHomePenalties(e.target.value)}
-                  className={`w-16 text-center text-lg font-bold py-1.5 border-2 rounded-lg outline-none
+                  className={`w-16 text-center text-black font-bold py-1.5 border-2 rounded-lg outline-none
                     ${errors.homePenalties ? 'border-red-400 bg-red-50' : 'border-amber-300 focus:border-amber-500'}`}
                   placeholder="0"
                 />
@@ -345,7 +345,7 @@ export function ResultForm({
                   inputMode="numeric"
                   value={awayPenalties}
                   onChange={(e) => setAwayPenalties(e.target.value)}
-                  className={`w-16 text-center text-lg font-bold py-1.5 border-2 rounded-lg outline-none
+                  className={`w-16 text-center text-black font-bold py-1.5 border-2 rounded-lg outline-none
                     ${errors.awayPenalties ? 'border-red-400 bg-red-50' : 'border-amber-300 focus:border-amber-500'}`}
                   placeholder="0"
                 />
