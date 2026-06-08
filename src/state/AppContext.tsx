@@ -14,10 +14,12 @@ interface AppContextValue {
 export const AppContext = createContext<AppContextValue | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
+  // Intenta restaurar estado guardado; si no hay, usa los datos iniciales
   const saved = loadState();
   const initialState: AppState = saved ?? initialAppState;
   const [state, dispatch] = useReducer(appReducer, initialState);
 
+  // Persiste automáticamente en localStorage cada vez que el estado cambia
   useEffect(() => {
     saveState(state);
   }, [state]);

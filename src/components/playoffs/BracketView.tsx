@@ -7,6 +7,7 @@ interface BracketViewProps {
   onSelectMatch: (match: Match) => void;
 }
 
+// Altura de cada nodo y ancho de columna para posicionamiento
 const CARD_HEIGHT = 82;
 const COL_WIDTH = 220;
 
@@ -24,6 +25,7 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
     if (match) onSelectMatch(match);
   }
 
+  // Traducción de nombres de rondas al español
   const roundNameLabels: Record<string, string> = {
     'Round of 16': 'Octavos de Final',
     'Quarter-finals': 'Cuartos de Final',
@@ -32,6 +34,7 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
     'Final': 'Final',
   };
 
+  // Separa las rondas principales del tercer puesto para renderizarlo aparte
   const mainRounds = rounds.filter((r) => r.name !== 'Third Place');
   const thirdPlaceRound = rounds.find((r) => r.name === 'Third Place');
 
@@ -42,6 +45,7 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
         <h3 className="text-sm font-bold mb-3 text-center uppercase tracking-wide pt-2 text-gray-300">
           {roundNameLabels[roundName] ?? roundName}
         </h3>
+        {/* Distribuye los nodos uniformemente en el espacio vertical */}
         <div className={`flex flex-col flex-1 ${nodesCount > 1 ? 'justify-evenly' : 'justify-center'}`}>
           {matches.map((bm) => {
             const match = state.matches.find((m) => m.id === bm.matchId);
@@ -107,6 +111,7 @@ export function BracketView({ onSelectMatch }: BracketViewProps) {
   }
 
   return (
+    // Scroll horizontal para móvil, flexbox para alinear columnas
     <div className="w-full" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', textAlign: 'center' }}>
       <div className="pb-4">
         <div className="inline-flex items-stretch gap-0">

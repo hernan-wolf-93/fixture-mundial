@@ -5,10 +5,19 @@ import { recalculateStandings } from '../logic/standings';
 import { buildPlayoffs, getTournamentStage } from '../logic/playoffs';
 import { computeTopScorers, computeTopAssisters } from '../logic/statistics';
 
+/**
+ * Reducer principal del torneo.
+ * 
+ * En cada acción recalcula TODO desde cero (standings, bracket, estadísticas)
+ * para evitar bugs de sincronización. Esto es intencional: aunque es menos
+ * eficiente que un update incremental, en un torneo de 64 partidos el costo
+ * es despreciable y la corrección es total.
+ */
 export function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case 'SET_MATCH_RESULT': {
       const { matchId, result, goals } = action.payload;
+      // Reemplaza el partido y lo marca como jugado
       const newMatches = state.matches.map((m) =>
         m.id === matchId
           ? { ...m, result, goals: goals ?? [], status: 'played' as const }
@@ -16,6 +25,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       );
       const newStandings = recalculateStandings(newMatches, state.teams);
       const { bracket, updatedMatches } = buildPlayoffs(newStandings, newMatches);
+      // Si hay bracket, usa los partidos actualizados (con equipos propagados)
       const finalMatches = bracket.length > 0 ? updatedMatches : newMatches;
       const tournamentStage = getTournamentStage(finalMatches);
       const topScorers = computeTopScorers(finalMatches);
@@ -32,6 +42,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     }
 
     case 'RESET_MATCH_RESULT': {
+      // Vuelve un partido a su estado programado (sin resultado)
       const { matchId } = action.payload;
       const newMatches = state.matches.map((m) =>
         m.id === matchId
@@ -56,6 +67,8 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     }
 
     case 'BULK_SIMULATE': {
+      // Usado por el simulador automático para cargar múltiples resultados
+      // en una sola operación atómica (evita recalcular 64 veces seguidas)
       const updatesById = new Map<string, BulkMatchUpdate>();
       for (const u of action.payload.updates) {
         updatesById.set(u.matchId, u);
@@ -92,6 +105,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     }
 
     case 'RESET_ALL':
+      // Crea un nuevo objeto a partir del initial state
       return { ...initialAppState };
 
     default:

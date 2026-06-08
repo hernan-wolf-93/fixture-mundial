@@ -1,5 +1,6 @@
 import type { Match } from '../types';
 
+// Partidos de fase de grupos (48 partidos, 6 por grupo)
 const groupMatches: Omit<Match, 'id'>[] = [
   // Group A
   { stage: 'group', group: 'A', homeTeamId: 'QAT', awayTeamId: 'ECU', date: '2022-11-20', time: '19:00', timezone: 'UTC+3', status: 'scheduled', round: 1 },
@@ -59,6 +60,9 @@ const groupMatches: Omit<Match, 'id'>[] = [
   { stage: 'group', group: 'H', homeTeamId: 'GHA', awayTeamId: 'URU', date: '2022-12-02', time: '18:00', timezone: 'UTC+3', status: 'scheduled', round: 3 },
 ];
 
+// Partidos de playoffs (16 partidos: 8 octavos + 4 cuartos + 2 semis + 1 tercer puesto + 1 final)
+// Los IDs se asignan secuencialmente después de los 48 de grupo
+
 const playoffMatches: Omit<Match, 'id'>[] = [
   // Round of 16
   { stage: 'round_of_16', homeTeamId: '', awayTeamId: '', date: '2022-12-03', time: '18:00', timezone: 'UTC+3', status: 'scheduled' },
@@ -85,6 +89,7 @@ const playoffMatches: Omit<Match, 'id'>[] = [
 
 const allMatches = [...groupMatches, ...playoffMatches];
 
+// Asigna IDs tipo 'match-001' a 'match-064' en orden secuencial
 export const matches: Match[] = allMatches.map((m, i) => ({
   ...m,
   id: `match-${String(i + 1).padStart(3, '0')}`,

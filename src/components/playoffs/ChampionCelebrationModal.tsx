@@ -9,6 +9,7 @@ interface ChampionCelebrationModalProps {
   onClose: () => void;
 }
 
+// Configuración de los fuegos artificiales
 const FIREWORK_COLORS = ['#FFD700', '#FF6B6B', '#4ECDC4', '#FF69B4', '#00FF88', '#FFE66D', '#FF4500', '#00BFFF'];
 const FIREWORK_POSITIONS = [12, 30, 50, 70, 88];
 const PARTICLE_COUNT = 12;
@@ -16,6 +17,7 @@ const PARTICLE_COUNT = 12;
 type Particle = { angle: number; dist: number; color: string };
 type Firework = { left: number; delay: number; duration: number; particles: Particle[] };
 
+/** Genera partículas con posiciones y colores aleatorios para cada fuego artificial */
 function buildFireworks(): Firework[] {
   return FIREWORK_POSITIONS.map((left, fi) => {
     const particles: Particle[] = [];
@@ -38,6 +40,7 @@ function buildFireworks(): Firework[] {
 }
 
 export function ChampionCelebrationModal({ championTeam, onViewStats, onClose }: ChampionCelebrationModalProps) {
+  // Cierra con Escape
   useEffect(() => {
     function handleEsc(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose();
@@ -46,11 +49,13 @@ export function ChampionCelebrationModal({ championTeam, onViewStats, onClose }:
     return () => window.removeEventListener('keydown', handleEsc);
   }, [onClose]);
 
+  // useMemo para que los fuegos artificiales no se regeneren en cada render
   const fireworks = useMemo(() => buildFireworks(), []);
 
+  // createPortal para renderizar sobre todo el árbol de componentes
   return createPortal(
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/80 backdrop-blur-md">
-      {/* Fireworks layer */}
+      {/* Capa de fuegos artificiales con animaciones CSS */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {fireworks.map((fw) => (
           <div
@@ -68,6 +73,7 @@ export function ChampionCelebrationModal({ championTeam, onViewStats, onClose }:
                 style={{
                   background: p.color,
                   animation: `firework-particle 1s ease-out ${fw.delay + 0.1 + i * 0.02}s both`,
+                  // Variables CSS personalizadas para la dirección de cada partícula
                   '--tx': `${Math.cos((p.angle * Math.PI) / 180) * p.dist}px`,
                   '--ty': `${Math.sin((p.angle * Math.PI) / 180) * p.dist}px`,
                 } as React.CSSProperties}
@@ -77,7 +83,7 @@ export function ChampionCelebrationModal({ championTeam, onViewStats, onClose }:
         ))}
       </div>
 
-      {/* Content */}
+      {/* Contenido principal con animaciones escalonadas */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-lg">
         <div className="animate-bounce-in">
           <img
@@ -112,6 +118,7 @@ export function ChampionCelebrationModal({ championTeam, onViewStats, onClose }:
         </div>
       </div>
 
+      {/* Keyframes de animaciones inline para evitar dependencias externas */}
       <style>{`
         @keyframes firework-launch {
           0% { transform: translateX(-50%) translateY(0); opacity: 1; }

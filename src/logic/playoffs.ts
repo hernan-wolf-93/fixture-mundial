@@ -9,6 +9,7 @@ interface QualifiedTeam {
   position: number;
 }
 
+/** Obtiene los 2 primeros de cada grupo (16 equipos en total) */
 export function getQualifiedTeams(standings: GroupStandings): QualifiedTeam[] {
   const result: QualifiedTeam[] = [];
   for (const letter of GROUP_LETTERS) {
@@ -31,6 +32,10 @@ function findQualifiedTeamId(
   )?.teamId;
 }
 
+/**
+ * Dado un resultado (con penales opcionales), determina el ID del ganador.
+ * Si el resultado está empatado y no hay penales, devuelve string vacío.
+ */
 function getWinner(result: { homeGoals: number; awayGoals: number; penalties?: { homeGoals: number; awayGoals: number } }, homeTeamId: string, awayTeamId: string): string {
   if (result.homeGoals > result.awayGoals) return homeTeamId;
   if (result.homeGoals < result.awayGoals) return awayTeamId;
@@ -42,6 +47,7 @@ function getWinner(result: { homeGoals: number; awayGoals: number; penalties?: {
   return '';
 }
 
+/** Devuelve el perdedor invirtiendo la lógica de getWinner */
 function getLoser(result: { homeGoals: number; awayGoals: number; penalties?: { homeGoals: number; awayGoals: number } }, homeTeamId: string, awayTeamId: string): string {
   const winner = getWinner(result, homeTeamId, awayTeamId);
   return winner === homeTeamId ? awayTeamId : homeTeamId;
@@ -52,6 +58,11 @@ function isGroupStageComplete(matches: Match[]): boolean {
   return groupMatches.length > 0 && groupMatches.every((m) => m.status === 'played');
 }
 
+/**
+ * Construye una ronda del bracket tomando los ganadores de la ronda anterior.
+ * Si los equipos cambiaron respecto al estado guardado, borra el resultado
+ * previo para evitar inconsistencias.
+ */
 function buildRound(
   matches: Match[],
   round: BracketRoundName,
@@ -64,6 +75,7 @@ function buildRound(
   for (let i = 0; i < count; i++) {
     const matchIndex = startIndex + i;
     const match = matches[matchIndex];
+    // Cada partido de la ronda anterior alimenta un partido de esta ronda
     const prevMatch1 = previousRound[i * 2];
     const prevMatch2 = previousRound[i * 2 + 1];
 
@@ -74,6 +86,7 @@ function buildRound(
     const oldAwayId = match.awayTeamId;
     const teamsChanged = oldHomeId !== homeId || oldAwayId !== awayId;
 
+    // Si los equipos cambiaron, limpia el resultado para forzar recarga
     matches[matchIndex] = teamsChanged || !match.result
       ? { ...match, homeTeamId: homeId, awayTeamId: awayId, result: undefined, goals: undefined, status: 'scheduled' as const }
       : { ...match, homeTeamId: homeId, awayTeamId: awayId };
@@ -99,6 +112,14 @@ function buildRound(
   return result;
 }
 
+/**
+ * Función principal del bracket. Si la fase de grupos no está completa,
+ * limpia cualquier dato de playoffs y devuelve bracket vacío.
+ * 
+ * Formato oficial de octavos (índices 48-55 del array de partidos):
+ * 1A vs 2B, 1C vs 2D, 1E vs 2F, 1G vs 2H,
+ * 1B vs 2A, 1D vs 2C, 1F vs 2E, 1H vs 2G
+ */
 export function buildPlayoffs(
   standings: GroupStandings,
   matches: Match[]
@@ -106,6 +127,7 @@ export function buildPlayoffs(
   const updatedMatches = matches.map((m) => ({ ...m }));
 
   if (!isGroupStageComplete(updatedMatches)) {
+    // Limpia todos los partidos de playoffs si la fase de grupos no terminó
     for (let i = 0; i < updatedMatches.length; i++) {
       if (updatedMatches[i].stage !== 'group') {
         updatedMatches[i] = {
@@ -181,6 +203,10 @@ export function buildPlayoffs(
   return { bracket, updatedMatches };
 }
 
+/**
+ * Arma el partido por el tercer puesto usando los perdedores de ambas semifinales.
+ * Si las semis no tienen resultado, deja los equipos vacíos.
+ */
 function buildThirdPlace(
   matches: Match[],
   semiFinals: BracketMatch[],
@@ -237,6 +263,12 @@ function buildThirdPlace(
   }];
 }
 
+/**
+ * Determina la etapa actual del torneo según los partidos jugados:
+ * - 'group': si aún hay partidos de grupo sin jugar
+ * - 'playoffs': si todos los grupos terminaron pero la final no
+ * - 'finished': si la final ya se jugó
+ */
 export function getTournamentStage(matches: Match[]): 'group' | 'playoffs' | 'finished' {
   const groupMatches = matches.filter((m) => m.stage === 'group');
   const allGroupPlayed = groupMatches.length > 0 && groupMatches.every((m) => m.status === 'played');

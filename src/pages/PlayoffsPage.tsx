@@ -5,6 +5,7 @@ import { BracketView } from '../components/playoffs/BracketView';
 import { ResultForm } from '../components/matches/ResultForm';
 import { ChampionCelebrationModal } from '../components/playoffs/ChampionCelebrationModal';
 
+/** Determina el equipo campeón a partir del resultado de la final */
 function getChampion(match: Match, teams: Team[]): Team | undefined {
   if (!match.result) return undefined;
   const { homeGoals, awayGoals, penalties } = match.result;
@@ -22,6 +23,7 @@ function getChampion(match: Match, teams: Team[]): Team | undefined {
 export function PlayoffsPage() {
   const { state, dispatch } = useAppContext();
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
+  // Estado separado para el modal de celebración (se abre automáticamente al cargar la final)
   const [celebrationMatch, setCelebrationMatch] = useState<Match | null>(null);
   const [championTeam, setChampionTeam] = useState<Team | null>(null);
 
@@ -29,6 +31,7 @@ export function PlayoffsPage() {
     const isFinal = match.stage === 'final';
     const hasResult = match.status === 'played' && match.result;
 
+    // Si es la final y ya tiene resultado, abre el modal de celebración en lugar del formulario
     if (isFinal && hasResult) {
       const champ = getChampion(match, state.teams);
       if (champ) {
@@ -41,6 +44,7 @@ export function PlayoffsPage() {
   }
 
   function handleCelebrationViewStats() {
+    // Al hacer clic en "Ver estadísticas", abre el formulario de la final
     setSelectedMatch(celebrationMatch);
     setCelebrationMatch(null);
     setChampionTeam(null);
@@ -77,6 +81,7 @@ export function PlayoffsPage() {
       </div>
 
       {state.playoffs.length === 0 ? (
+        // Mensaje informativo mientras la fase de grupos no está completa
         <div className="text-center py-16 bg-black/50 backdrop-blur-sm rounded-lg border border-white/20">
           <span className="text-5xl block mb-4">🏆</span>
           <p className="text-gray-300 text-lg">

@@ -1,5 +1,11 @@
 import type { Standing, Match } from '../types';
 
+/**
+ * Desempate head-to-head: busca el partido directo entre dos equipos
+ * del mismo grupo. Devuelve diferencia de goles negativa si 'a' le ganó a 'b',
+ * positiva si 'b' le ganó a 'a', o 0 si empataron o no jugaron.
+ * El signo se invierte para que funcione con el sort ascendente/descendente.
+ */
 export function resolveHeadToHead(a: Standing, b: Standing, matches: Match[]): number {
   const directMatch = matches.find(
     (m) =>
@@ -22,6 +28,13 @@ export function resolveHeadToHead(a: Standing, b: Standing, matches: Match[]): n
   return bGoals - aGoals;
 }
 
+/**
+ * Ordena una tabla de posiciones según criterios FIFA:
+ * 1. Puntos (mayor)
+ * 2. Diferencia de gol (mayor)
+ * 3. Goles a favor (mayor)
+ * 4. Head-to-head (resultado del partido entre los empatados)
+ */
 export function sortStandings(standings: Standing[], matches: Match[]): Standing[] {
   return [...standings].sort((a, b) => {
     if (b.points !== a.points) return b.points - a.points;

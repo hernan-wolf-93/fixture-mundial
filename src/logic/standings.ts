@@ -3,6 +3,10 @@ import { sortStandings } from './tiebreakers';
 
 const GROUP_LETTERS: GroupLetter[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
+/**
+ * Crea las entradas iniciales de tabla con todos los valores en 0
+ * para los equipos de un grupo específico.
+ */
 function createEmptyStandings(teams: Team[], group: GroupLetter) {
   return teams
     .filter((t) => t.group === group)
@@ -20,6 +24,12 @@ function createEmptyStandings(teams: Team[], group: GroupLetter) {
     }));
 }
 
+/**
+ * Recorre todos los partidos de grupo jugados y recalcula
+ * PJ, PG, PE, PP, GF, GC, DG y PTS para cada equipo.
+ * Aplica sistema FIFA: victoria = 3 pts, empate = 1 pt.
+ * Finalmente ordena cada grupo según criterios FIFA.
+ */
 export function recalculateStandings(matches: Match[], teams: Team[]): GroupStandings {
   const standings = {} as GroupStandings;
 
@@ -62,6 +72,7 @@ export function recalculateStandings(matches: Match[], teams: Team[]): GroupStan
     }
   }
 
+  // Calcula diferencia de gol y ordena usando criterios FIFA
   for (const letter of GROUP_LETTERS) {
     for (const s of standings[letter]) {
       s.goalDifference = s.goalsFor - s.goalsAgainst;

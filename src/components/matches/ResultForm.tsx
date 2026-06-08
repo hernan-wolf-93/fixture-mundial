@@ -6,7 +6,7 @@ import squadsData from '../../data/squadsData.json';
 
 interface GoalFormEntry {
   id: number;
-  isHome: boolean;
+  isHome: boolean;    // true = gol del equipo local, false = visitante
   playerName: string;
   assistName: string;
 }
@@ -29,6 +29,7 @@ interface FormErrors {
   goals?: string;
 }
 
+/** Reconstruye las entradas de goles desde los datos guardados del partido */
 function buildInitialGoals(match: Match): GoalFormEntry[] {
   if (match.status === 'played' && match.goals && match.goals.length > 0) {
     return match.goals.map((g, i) => ({
@@ -78,6 +79,10 @@ export function ResultForm({
     return (squadsData as Record<string, Player[]>)[teamId] ?? [];
   }
 
+  /**
+   * Filtra jugadores del plantel según el equipo del gol y el texto ingresado.
+   * Usa el campo isHome del entry para determinar si el goleador es del local o visitante.
+   */
   function getSuggestions(entryId: number, _field: 'scorer' | 'assist', query: string): Player[] {
     const entry = goalEntries.find((g) => g.id === entryId);
     if (!entry) return [];
@@ -87,6 +92,7 @@ export function ResultForm({
     return squad.filter((p) => p.name.toLowerCase().includes(lower)).slice(0, 6);
   }
 
+  // Timer para cerrar las sugerencias al perder el foco (con delay para permitir clic)
   function startSuggestionClose() {
     suggestionTimer.current = setTimeout(() => setSuggestionTarget(null), 180);
   }
@@ -98,9 +104,15 @@ export function ResultForm({
   const hgNum = /^\d+$/.test(homeGoals.trim()) ? Number(homeGoals.trim()) : -1;
   const agNum = /^\d+$/.test(awayGoals.trim()) ? Number(awayGoals.trim()) : -1;
   const isDraw = hgNum >= 0 && agNum >= 0 && hgNum === agNum;
+  // Los penales solo se habilitan en playoffs cuando hay empate
   const showPenalties = isPlayoff && isDraw;
   const totalGoals = hgNum >= 0 && agNum >= 0 ? hgNum + agNum : 0;
 
+  /**
+   * Mantiene sincronizada la cantidad de entradas de goles con el marcador.
+   * Si el usuario cambia el resultado (ej: de 2-1 a 3-0), se agregan o
+   * eliminan entradas automáticamente.
+   */
   function syncGoalEntries(hTotal: number, aTotal: number) {
     const total = hTotal + aTotal;
     setGoalEntries((prev) => {
@@ -130,6 +142,7 @@ export function ResultForm({
     );
   }
 
+  /** Validación completa del formulario antes de guardar */
   function validate(): FormErrors {
     const errs: FormErrors = {};
 
@@ -152,6 +165,7 @@ export function ResultForm({
       errs.awayGoals = 'No puede ser negativo';
     }
 
+    // Valida que los penales no estén empatados
     if (showPenalties) {
       const hp = homePenalties.trim();
       const ap = awayPenalties.trim();
@@ -171,6 +185,7 @@ export function ResultForm({
       }
     }
 
+    // Verifica que todos los goles tengan nombre de goleador
     if (totalGoals > 0) {
       const emptyNames = goalEntries.some((g) => !g.playerName.trim());
       if (emptyNames) {
@@ -181,6 +196,7 @@ export function ResultForm({
     return errs;
   }
 
+  /** Construye el array de GoalEvent a partir de las entradas del formulario */
   function buildGoals(): GoalEvent[] {
     return goalEntries.map((entry, idx) => ({
       playerName: entry.playerName.trim(),
@@ -220,6 +236,7 @@ export function ResultForm({
     handleClose();
   }
 
+  /** Restaura el formulario al estado inicial del partido */
   function handleClose() {
     setErrors({});
     setConfirmReset(false);
@@ -245,6 +262,7 @@ export function ResultForm({
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Ingresar Resultado">
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Marcador: goles local - visitante */}
         <div className="flex items-center justify-center gap-4 py-4">
           <div className="flex flex-col items-center gap-2 flex-1">
             {homeTeam && <FlagIcon countryCode={homeTeam.flag} size="lg" />}
@@ -298,6 +316,7 @@ export function ResultForm({
           </div>
         </div>
 
+        {/* Checkbox de tiempo extra (solo en playoffs) */}
         {isPlayoff && (
           <div className="flex items-center gap-2 pt-1">
             <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
@@ -312,6 +331,7 @@ export function ResultForm({
           </div>
         )}
 
+        {/* Sección de penales: solo visible en playoffs con marcador empatado */}
         {showPenalties && (
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
             <p className="text-xs font-semibold text-amber-800 mb-2 text-center">
@@ -357,6 +377,7 @@ export function ResultForm({
           </div>
         )}
 
+        {/* Lista dinámica de goles: se genera según el marcador */}
         {totalGoals > 0 && (
           <div className="border-t border-white/20 pt-3">
             <h4 className="text-sm font-semibold text-gray-200 mb-3">
@@ -372,6 +393,7 @@ export function ResultForm({
                     {idx + 1}
                   </span>
 
+                  {/* Botones Local/Visitante para asignar el equipo del gol */}
                   <div className="flex items-center gap-1 bg-black/50 rounded border border-white/20 p-0.5 shrink-0">
                     <button
                       type="button"
@@ -397,6 +419,7 @@ export function ResultForm({
                     </button>
                   </div>
 
+                  {/* Input de goleador con autocompletado */}
                   <div className="relative flex-1 min-w-0">
                     <input
                       type="text"
@@ -410,6 +433,7 @@ export function ResultForm({
                       placeholder="Nombre del goleador"
                       className="w-full text-sm px-2 py-1.5 border border-gray-300 rounded-lg outline-none focus:border-blue-500 placeholder-gray-400"
                     />
+                    {/* Dropdown de sugerencias filtrado por plantel del equipo */}
                     {suggestionTarget?.id === entry.id && suggestionTarget?.field === 'scorer' && entry.playerName && (
                       <div
                         className="absolute z-50 top-full left-0 right-0 mt-1 bg-white text-gray-900 border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
@@ -437,6 +461,7 @@ export function ResultForm({
                     )}
                   </div>
 
+                  {/* Input de asistencia (opcional) con autocompletado */}
                   <div className="relative w-36 shrink-0 hidden sm:block">
                     <input
                       type="text"
@@ -485,6 +510,7 @@ export function ResultForm({
           </div>
         )}
 
+        {/* Botones de acción: Guardar/Actualizar/Eliminar con confirmación */}
         <div className="flex gap-2 pt-2 border-t border-gray-100">
           {isEditing ? (
             <>

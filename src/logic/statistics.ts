@@ -1,5 +1,9 @@
 import type { Match, ScorerEntry, AssisterEntry } from '../types';
 
+/**
+ * Recorre todos los partidos jugados, acumula los goles por jugador+equipo
+ * y devuelve el ranking ordenado de mayor a menor.
+ */
 export function computeTopScorers(matches: Match[]): ScorerEntry[] {
   const goalMap = new Map<string, { playerName: string; teamId: string; goals: number }>();
 
@@ -21,6 +25,10 @@ export function computeTopScorers(matches: Match[]): ScorerEntry[] {
     .map((entry) => ({ playerName: entry.playerName, teamId: entry.teamId, goals: entry.goals }));
 }
 
+/**
+ * Recorre todos los partidos jugados, acumula las asistencias por jugador+equipo
+ * y devuelve el ranking ordenado de mayor a menor.
+ */
 export function computeTopAssisters(matches: Match[]): AssisterEntry[] {
   const assistMap = new Map<string, { playerName: string; teamId: string; assists: number }>();
 

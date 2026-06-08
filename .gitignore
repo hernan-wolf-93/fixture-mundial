@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+Thumbs.db
+
+# Env files
+.env
+.env.local
+.env.*
+
+# Internal process files
+ARQUITECTURA.md
+ETAPA_*.md
+Instrucciones.md
+defensa.md
